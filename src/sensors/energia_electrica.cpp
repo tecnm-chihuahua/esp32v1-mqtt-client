@@ -10,7 +10,17 @@
 */
 
 #include <Arduino.h>
+#include <PZEM004Tv30.h>
 #include "energia_electrica.h"
+
+/* Hardware Serial2 is only available on certain boards.
+ * For example the Arduino MEGA 2560
+*/
+#if defined(ESP32)
+PZEM004Tv30 pzem(Serial2, 16, 17);
+#else
+PZEM004Tv30 pzem(Serial2);
+#endif
 
 /**
  * Genera un numero float aleatorio
@@ -27,11 +37,11 @@ float get_random_float_number() {
 EnergyLecture get_data_lecture(const int MQTT_CLIENT_ID) {
     EnergyLecture lecture; 
     lecture.device_id = MQTT_CLIENT_ID;
-    lecture.frecuencia = get_random_float_number();
-    lecture.energia = get_random_float_number();
-    lecture.potencia = get_random_float_number();
-    lecture.fp = get_random_float_number();
-    lecture.corriente = get_random_float_number();
+    lecture.frecuencia = pzem.frequency();
+    lecture.energia = pzem.energy();
+    lecture.potencia = pzem.power();
+    lecture.fp = pzem.pf();
+    lecture.corriente = pzem.current();
 
     return lecture;
 }

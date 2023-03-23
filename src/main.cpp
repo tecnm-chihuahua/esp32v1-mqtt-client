@@ -19,7 +19,7 @@
 ////////////////////////
 
 // Frecuencia de lecturas (en ms)
-const int LECTURE_FREQUENCY = 3000;
+const int LECTURE_FREQUENCY = 1000;
 
 ///////////////////////
 // Logica de Arduino //
